@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Margarine.ttf",
+      "sha1": "b3dd7aa73624c147d6b676149f2cebe2d9894bea"
+    },
+    {
+      "path": "assets/fonts/OpenSans.ttf",
+      "sha1": "ecdf1d58c0932a775c89b5ad48a7a0aaad66de4f"
+    },
+    {
+      "path": "assets/fonts/Rubik.ttf",
+      "sha1": "80fbecd6d6cb21096b3e0277222e696c77ceb7eb"
+    }
+  ]
+}
