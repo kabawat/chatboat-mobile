@@ -1,17 +1,18 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import MainContainer from '@components/hoc/main_container'
-import styles from './style'
+import styles from '../style'
 import { windowHeight } from '@utils/comman'
 import useThemeColors from '@hooks/useThemeColors'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import { CheckBoxACheck } from './checkbox'
-const Login = () => {
+import { CheckBoxACheck } from '@components/checkbox'
+import GlobalColor from '@style/colors'
+const Login = ({ navigation }: any) => {
     const colors = useThemeColors()
     return (
         <>
-            <View style={{ height: windowHeight * 0.4, position: "relative" }}>
+            <View style={{ height: windowHeight * 0.3, position: "relative" }}>
                 <View style={styles.introSection}>
                     <Image source={require('@assets/bg/blumba.png')} style={styles.introBgImg} />
                 </View>
@@ -20,7 +21,7 @@ const Login = () => {
                     <Text style={styles.heading}>Log In!</Text>
                 </View>
             </View>
-            <View style={styles.loginContainer}>
+            <View style={{ ...styles.loginContainer }}>
                 <View style={{ ...styles.inputContainer, borderColor: colors.mainDark }}>
                     <View style={styles.iconContainer}>
                         <FontAwesome name="user-o" size={18} color={colors.dicsColor} />
@@ -50,10 +51,14 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.btnContainer}>
+                <View style={{ ...styles.btnContainer, marginTop: 80, }}>
                     <TouchableOpacity style={{ ...styles.btn, backgroundColor: colors.mainColor }}>
                         <Text style={styles.btnText}>Login</Text>
                     </TouchableOpacity>
+                </View>
+                <View style={styles.moreOption}>
+                    <Text style={{ ...styles.moreOptionText, color: colors.dicsColor }}>Don't have an account? </Text>
+                    <Text onPress={() => navigation.navigate("Registration")} style={{ ...styles.moreOptionText, color: GlobalColor.primary }}>Registration</Text>
                 </View>
             </View>
         </>

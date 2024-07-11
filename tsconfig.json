@@ -12,6 +12,9 @@
       "@hooks/*": [
         "hooks/*"
       ],
+      "@service/*": [
+        "service/*"
+      ],
       "@views/*": [
         "views/*"
       ],

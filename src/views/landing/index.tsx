@@ -13,7 +13,7 @@ const Start = ({ navigation }: any) => {
     Linking.openURL('https://kabawat.com/');
   };
   return (
-    <View style={{ backgroundColor: colors.mainColor, flex: 1 }}>
+    <View style={{ backgroundColor: colors.mainLight, flex: 1 }}>
       <View style={{ alignItems: 'center', flex: 5, marginTop: 40 }}>
         <Image source={require('@assets/lending.png')} style={styles.img} />
       </View>

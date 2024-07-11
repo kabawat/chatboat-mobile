@@ -10,6 +10,9 @@ const useThemeColors = () => {
     const headingColor = isDark ? Colors.lighter : Colors.dark;
     const dicsColor = isDark ? Colors.light : Colors.dark;
     const textColor = isDark ? Colors.white : Colors.dark;
+    const background = isDark ? Colors.black : Colors.white;
+
+    const dicsDim = isDark ? '#aaa' : '#666666';
 
     return {
         mainColor,
@@ -17,7 +20,9 @@ const useThemeColors = () => {
         headingColor,
         dicsColor,
         textColor,
-        mainDark
+        mainDark,
+        background,
+        dicsDim
     };
 };
 

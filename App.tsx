@@ -4,8 +4,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import Intro from '@views/intro'
 import Landing from '@views/landing'
 import Home from '@views/home'
-import Registration from '@views/Registration'
-import Login from '@views/Login'
+import Registration from '@views/auth/Registration'
+import Login from '@views/auth/Login'
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (

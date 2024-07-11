@@ -1,0 +1,18 @@
+import {
+    ENVIRONMENT,
+    APP_LOCAL_API_URL,
+    APP_PRODUCTION_API_URL,
+    APP_LOCAL_SOCKET_URL,
+    APP_PRODUCTION_SOCKET_URL,
+} from '@env'
+
+const env_variable = {
+    ENVIRONMENT,
+    APP_LOCAL_API_URL,
+    APP_PRODUCTION_API_URL,
+    APP_LOCAL_SOCKET_URL,
+    APP_PRODUCTION_SOCKET_URL,
+}
+
+export default env_variable
+

@@ -1,5 +1,5 @@
 import { windowHeight, windowWidth } from "@utils/comman";
-import { RootTagContext, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const styles = StyleSheet.create({
@@ -33,16 +33,16 @@ const styles = StyleSheet.create({
         color: Colors.light
     },
     loginContainer: {
-        height: windowHeight * 0.5,
+        justifyContent: 'center',
+        height: windowHeight * 0.6,
         paddingHorizontal: 40,
     },
     inputContainer: {
         borderWidth: 1,
-        // borderColor: Colors.light,
         borderRadius: 30,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 25
+        marginTop: 20
     },
     iconContainer: {
         width: 30,
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     btnContainer: {
-        marginTop: 80,
         alignItems: 'center',
         paddingHorizontal: 50
     },
@@ -82,6 +81,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: Colors.white,
         textAlign: 'center'
+    },
+    moreOption: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: "row",
+        paddingTop: 20
+    },
+    moreOptionText: {
+        fontSize: 18
+    },
+    formHeading: {
+        alignItems: 'center',
+    },
+    formHeadingText: {
+        fontSize: 30,
+        fontWeight: 'bold'
     }
 })
 export default styles;
