@@ -1,7 +1,9 @@
+import LoadingAnimation from '@components/loader/CubeAnimation';
 import useThemeColors from '@hooks/useThemeColors';
 import { ServiceVerifyApi } from '@service/verify.service';
 import { windowHeight, windowWidth } from '@utils/comman';
 import endpoint from 'config/api_endpoint';
+import dialogBox from 'Dialogs';
 import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, useColorScheme } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -10,7 +12,7 @@ const VerifyOTP = ({ navigation, route }: any) => {
     const { payload } = route.params;
     const isDark = useColorScheme() == 'dark'
     const colors = useThemeColors()
-
+    const [loader, setLoader] = useState(false)
     const [otp, setOtp] = useState("");
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
     let keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace']
@@ -35,15 +37,26 @@ const VerifyOTP = ({ navigation, route }: any) => {
     };
 
     const handleSubmit = async () => {
-        console.log("otp : ", otp)
         try {
             const Service = await ServiceVerifyApi()
+            if (!otp) {
+                dialogBox("Please Enter OTP", 'WARNING')
+                return
+            }
+            if (otp?.length < 5) {
+                dialogBox("Please Valid OTP", 'WARNING')
+                return
+            }
+            setLoader(true)
             const res = await Service.post(endpoint.VERIFY_EMAIL_USING_OTP, { otp })
             if (res.data.status) {
                 navigation.navigate('StepTwo')
             }
         } catch (error) {
-            console.log("error : ", error)
+            if (error?.response) {
+                dialogBox(error?.response?.data?.error)
+            }
+            setLoader(false)
         }
     }
 
@@ -92,6 +105,7 @@ const VerifyOTP = ({ navigation, route }: any) => {
                     </TouchableOpacity>
                 </View>
             </View >
+            {loader ? <LoadingAnimation message="Verifying Wait..." /> : <></>}
         </>
     );
 };
@@ -99,6 +113,7 @@ const VerifyOTP = ({ navigation, route }: any) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        
     },
     BgImg: {
         width: windowWidth,

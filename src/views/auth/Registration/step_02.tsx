@@ -10,6 +10,8 @@ import React, { useState } from 'react'
 import { ServiceVerifyApi } from '@service/verify.service';
 import endpoint from 'config/api_endpoint';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingAnimation from '@components/loader/CubeAnimation';
+import dialogBox from 'Dialogs';
 const formInit = {
     username: "",
     password: "",
@@ -17,27 +19,42 @@ const formInit = {
 }
 const StepTwo = ({ navigation }: any) => {
     const [formData, setFormData] = useState(formInit)
+    const [loader, setLoader] = useState(false)
     const colors = useThemeColors()
 
     const handleChange = (value: string, name: string) => {
         setFormData({ ...formData, [name]: value })
     }
     const handleSubmit = async () => {
-        console.log(formData)
         const { password, confirmPassword, username } = formData
-        if (password === confirmPassword && username) {
+        if (password === confirmPassword && password && confirmPassword) {
+            if (!username) {
+                dialogBox("Please Enter Username")
+                return
+            }
             try {
                 const Service = await ServiceVerifyApi()
                 const response = await Service.post(endpoint.REGISTRATION, { password, username })
-                console.log("response", response.data)
-                const res = await Service.post(endpoint.FINISH_SIGNUP, { is_file: 0 })
-                console.log("res", res.data)
-                await AsyncStorage.removeItem('_x_v_t')
-                await AsyncStorage.setItem('_x_a_t', res?.data?.authToken)
-                navigation.replace("Landing")
+                if (response.data.status) {
+                    const res = await Service.post(endpoint.FINISH_SIGNUP, { is_file: 0 })
+                    await AsyncStorage.removeItem('_x_v_t')
+                    await AsyncStorage.setItem('_x_a_t', res?.data?.authToken)
+                    dialogBox(res?.data?.message, "SUCCESS", () => {
+                        navigation.replace('Home')
+                    })
+                } else {
+                    dialogBox("something waiting wrong on our end", "SUCCESS")
+                }
+
+
             } catch (error) {
-                console.log('error : : ', error)
+                if (error?.response) {
+                    dialogBox(error?.response?.data?.error)
+                }
+                setLoader(false)
             }
+        } else {
+            dialogBox("Password and Confirm Password should be same")
         }
     }
     return (
@@ -99,6 +116,7 @@ const StepTwo = ({ navigation }: any) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            {loader ? <LoadingAnimation message="Verifying Wait..." /> : <></>}
         </>
     )
 }

@@ -6,7 +6,7 @@ const Start = ({ navigation }: any) => {
   const colors = useThemeColors()
 
   const handleRedirect = (path: string) => {
-    navigation.navigate(path);
+    navigation.replace(path);
   }
 
   const handleOpenKabawat = () => {

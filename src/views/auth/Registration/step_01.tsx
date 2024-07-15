@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, Button } from 'react-native'
 import React, { useState } from 'react'
 import MainContainer from '@components/hoc/main_container'
 import formStyle from '../style'
@@ -10,6 +10,8 @@ import GlobalColor from '@style/colors'
 import endpoint from 'config/api_endpoint'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { UnAuthService } from '@service/verify.service'
+import dialogBox from 'Dialogs'
+import LoadingAnimation from '@components/loader/CubeAnimation'
 const formInit = {
     email: "",
     firstName: "",
@@ -30,15 +32,16 @@ const StepOne = ({ navigation }: any) => {
     const handleSubmit = async () => {
         try {
             const { firstName, lastName, email } = formData
-            setLoader(true)
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                throw new Error("Hmm... That doesn't seem like a valid email address!")
+                dialogBox("Please enter valid email address", 'WARNING')
+                return
             }
             if (!firstName || !lastName) {
-                throw new Error("Hold up! Names can't be blank. Fill 'em in!");
+                dialogBox("Hold up! Names can't be blank. Fill 'em in!", 'WARNING')
+                return
             }
-
+            setLoader(true)
             const res = await Service.post(endpoint.SEND_OTP_ON_EMIAL, formData)
             await AsyncStorage.setItem('_x_v_t', res.data.varifyToken)
             let payload = {
@@ -46,14 +49,17 @@ const StepOne = ({ navigation }: any) => {
                 message: res.data.message
             }
             navigation.navigate("VerifyOTP", { payload })
+            // setLoader(false)
         } catch (error) {
-            console.log("error : ", error)
+            if (error?.response) {
+                dialogBox(error?.response?.data?.error)
+            }
+            setLoader(false)
         }
-
     }
 
     return (
-        <>
+        <View style={{ position: 'relative' }}>
             <View style={{ height: windowHeight * 0.3, position: "relative" }}>
                 <View style={formStyle.introSection}>
                     <Image source={require('@assets/bg/blumba.png')} style={formStyle.introBgImg} />
@@ -97,7 +103,6 @@ const StepOne = ({ navigation }: any) => {
                         onChangeText={(text) => handleChange(text, 'email')}
                     />
                 </View>
-
                 <View style={{ ...formStyle.btnContainer, marginTop: 50 }}>
                     <TouchableOpacity style={{ ...formStyle.btn, backgroundColor: colors.mainColor }} onPress={handleSubmit}>
                         <Text style={formStyle.btnText}>Send OTP</Text>
@@ -108,7 +113,8 @@ const StepOne = ({ navigation }: any) => {
                     <Text onPress={() => navigation.navigate("Login")} style={{ ...formStyle.moreOptionText, color: GlobalColor.primary }}>Login</Text>
                 </View>
             </View>
-        </>
+            {loader ? <LoadingAnimation message="Processing Wait..." /> : <></>}
+        </View>
     )
 }
 
