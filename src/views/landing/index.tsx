@@ -6,14 +6,14 @@ const Start = ({ navigation }: any) => {
   const colors = useThemeColors()
 
   const handleRedirect = (path: string) => {
-    navigation.navigate(path);
+    navigation.replace(path);
   }
 
   const handleOpenKabawat = () => {
     Linking.openURL('https://kabawat.com/');
   };
   return (
-    <View style={{ backgroundColor: colors.mainColor, flex: 1 }}>
+    <View style={{ backgroundColor: colors.mainLight, flex: 1 }}>
       <View style={{ alignItems: 'center', flex: 5, marginTop: 40 }}>
         <Image source={require('@assets/lending.png')} style={styles.img} />
       </View>

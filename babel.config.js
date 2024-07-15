@@ -18,6 +18,7 @@ module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
     // ..other plugins if any
+    ['module:react-native-dotenv'],
     [
       'module-resolver',
       {

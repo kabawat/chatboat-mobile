@@ -5,12 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const Intro = ({ navigation }: any) => {
     const getToken = async () => {
         try {
-            const token = await AsyncStorage.getItem('x_a_t');
+            const token = await AsyncStorage.getItem('_x_a_t');
             if (token) {
                 navigation.replace("Home")
             } else {
-                // navigation.replace("Landing")
-                navigation.replace("Login")
+                navigation.replace("Landing")
+                // navigation.replace("Registration")
             }
         } catch (error) { }
     }
