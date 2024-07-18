@@ -22,7 +22,6 @@ const Login = ({ navigation }: any) => {
     const colors = useThemeColors()
     const [formData, setFormData] = useState(initform)
     const handleChanage = (value: string, name: string) => {
-        console.log(value, name)
         setFormData({
             ...formData,
             [name]: value
@@ -44,9 +43,11 @@ const Login = ({ navigation }: any) => {
             dialogBox("login Success", "SUCCESS", () => {
                 navigation.replace('Home')
             })
-        } catch (error) {
-            if (error?.response.data?.error) {
+        } catch (error: any) {
+            if (error?.response?.data?.error) {
                 dialogBox(error?.response?.data?.error)
+            } else {
+                dialogBox("something went wrong")
             }
             setLoader(false)
         }

@@ -10,7 +10,6 @@ const fetchBaseURL = () => {
     }
 }
 const baseURL = fetchBaseURL()
-console.log("baseURL : ", baseURL)
 const endpoint = {
     // auth endpoint 
     BASE_URL: baseURL,
