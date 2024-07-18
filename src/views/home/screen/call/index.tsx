@@ -4,7 +4,7 @@ import useThemeColors from '@hooks/useThemeColors'
 import Octicons from 'react-native-vector-icons/Octicons';
 import mainStyle from '@views/home/style';
 import Avatar from '@components/avatar';
-import ChatListItem from '@components/chat/chatList';
+import CallListItem from '@components/chat/callList';
 const chatData = [
     {
         id: '1',
@@ -191,7 +191,7 @@ const chatData = [
     // Add more chat items here
 ];
 
-const ChatScreen = (props: any) => {
+const CallScreen = (props: any) => {
     const { navigation } = props.route
     const isDark = useColorScheme() == 'dark'
     const colors = useThemeColors()
@@ -208,7 +208,7 @@ const ChatScreen = (props: any) => {
                         backgroundColor={''}
                     />
                 </TouchableOpacity>
-                <Text style={{ ...mainStyle.heading, color: colors.dicsColor }}>Chat</Text>
+                <Text style={{ ...mainStyle.heading, color: colors.dicsColor }}>Call</Text>
                 <TouchableOpacity style={mainStyle.rightIcon}>
                     <Octicons name='search' size={24} style={{ color: colors.dicsColor }} />
                 </TouchableOpacity>
@@ -220,8 +220,8 @@ const ChatScreen = (props: any) => {
                     {
                         chatData?.map((chat: any, key: number) => {
                             return (
-                                <TouchableOpacity key={key} onPress={() => navigation.navigate("Chat")}>
-                                    <ChatListItem {...chat} />
+                                <TouchableOpacity key={key}>
+                                    <CallListItem {...chat} />
                                 </TouchableOpacity>
                             )
                         })
@@ -239,7 +239,7 @@ const ChatScreen = (props: any) => {
     )
 }
 
-export default ChatScreen
+export default CallScreen
 
 const styles = StyleSheet.create({
     chatContainer: {

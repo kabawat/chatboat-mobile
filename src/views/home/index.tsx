@@ -1,129 +1,118 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as React from 'react';
+import { View, Text, StyleSheet, useWindowDimensions, TouchableOpacity } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import { windowWidth } from '@utils/comman';
+import useThemeColors from '@hooks/useThemeColors';
+import ProfileScreen from './screen/profile';
+import StatusScreen from './screen/status';
+import CallScreen from './screen/call';
+import ChatScreen from './screen/chat';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import useThemeColors from '@hooks/useThemeColors';
-import Chat from './screen/chat';
-const Tab = createBottomTabNavigator();
+// import ContactScreen from '@views/contact';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Home = () => {
-    const colors = useThemeColors()
+const renderScene = SceneMap({
+    chat: ChatScreen,
+    call: CallScreen,
+    // newchat: ContactScreen,
+    status: StatusScreen,
+    profile: ProfileScreen,
+
+});
+
+const getButtonStyle = (key: any, colors: any) => {
+    if (key == "newchat") {
+        return {
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+            bottom: 30,
+            width: 75,
+            height: 75,
+            borderRadius: 75,
+            shadowOffset: {
+                width: 0,
+                height: 10,
+            },
+            backgroundColor: colors.background,
+            shadowOpacity: 0.25,
+            shadowRadius: 3.5,
+            elevation: 5
+        };
+    } else {
+        return {
+            justifyContent: 'center',
+            width: (windowWidth - 50) / 5,
+            alignItems: 'center',
+            display: 'flex',
+            borderRadius: 80
+        }
+    }
+}
+
+export default function Home({ navigation }: any) {
+    const colors = useThemeColors();
+    const layout = useWindowDimensions();
+    const [index, setIndex] = React.useState(0);
+    const [routes] = React.useState([
+        { navigation: navigation, key: 'chat', title: 'Chat', icon: 'chatbubbles-outline', IconComponent: Ionicons },
+        { navigation: navigation, key: 'call', title: 'Call', icon: 'call-outline', IconComponent: Ionicons },
+        // {  navigation:navigation, key: 'newchat', title: '', icon: 'plus', IconComponent: AntDesign },
+        { navigation: navigation, key: 'status', title: 'Status', icon: 'camera-outline', IconComponent: Ionicons },
+        { navigation: navigation, key: 'profile', title: 'Profile', icon: 'user', IconComponent: Feather },
+    ]);
+
     return (
-        <Tab.Navigator
-            screenOptions={{
-                tabBarShowLabel: false,
-                headerShown: false,
-                tabBarStyle: {
-                    backgroundColor: colors.dimBackground,
-                    ...styles.tabBarStyle,
-                    ...styles.shadow,
-                    borderColor: 'transparent',
-                    paddingTop: 10
-                },
-            }}
-            sceneContainerStyle={{
-                backgroundColor: colors.background,
-            }}
-        >
-            <Tab.Screen
-                name="Chat"
-                component={Chat}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={styles.iconSetion}>
-                            <Ionicons name="chatbubbles-outline" color={focused ? colors.mainColor : colors.headingColor} size={24} />
-                            <Text style={{ color: focused ? colors.mainColor : colors.headingColor, marginTop: 2 }}>Chat</Text>
-                        </View>
-                    ),
-                    tabBarBadge: 10,
-                    tabBarBadgeStyle: styles.tabBarBadge
-                }}
+        <View style={styles.container}>
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+                renderTabBar={() => null} // Disable default tab bar
             />
-            <Tab.Screen
-                name="Reel"
-                component={Child}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={styles.iconSetion}>
-                            <Ionicons name="call-outline" color={focused ? colors.mainColor : colors.headingColor} size={24} />
-                            <Text style={{ color: focused ? colors.mainColor : colors.headingColor, marginTop: 2 }}>Call</Text>
-                        </View>
+            <View style={[styles.tabBar, styles.shadow, { backgroundColor: colors.dimBackground }]}>
+                {routes.map((route, idx) => {
+                    return (
+                        <TouchableOpacity key={route.key} style={getButtonStyle(route.key, colors)} onPress={() => setIndex(idx)}>
+                            <route.IconComponent
+                                name={route.icon}
+                                size={route.title ? 24 : 34}
+                                style={{ fontWeight: !route.key ? 'bold' : 'normal' }}
+                                color={index === idx ? colors.mainColor : colors.headingColor}
+                            />
+                            {
+                                route.title ? <Text style={{ color: index === idx ? colors.mainColor : colors.headingColor, marginTop: 2 }}>
+                                    {route.title}
+                                </Text> : <></>
+                            }
+                        </TouchableOpacity>
                     )
-                }}
-            />
-            {/* <Tab.Screen
-                name="Home"
-                component={Child}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={{
-                            ...styles.iconSetion,
-                            ...styles.shadow,
-                            backgroundColor: colors.background,
-                            bottom: 30,
-                            width: 75,
-                            height: 75,
-                            borderRadius: 75,
-
-                        }}>
-                            <AntDesign name="plus" color={color} size={40} />
-                        </View>
-                    )
-                }}
-            /> */}
-            <Tab.Screen
-                name="Profile"
-                component={Child}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={styles.iconSetion}>
-                            <Feather name="camera" color={focused ? colors.mainColor : colors.headingColor} size={24} />
-                            <Text style={{ color: focused ? colors.mainColor : colors.headingColor, marginTop: 2 }}>Status</Text>
-                        </View>
-                    )
-                }}
-            />
-            <Tab.Screen
-                name="Setting"
-                component={Child}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={styles.iconSetion}>
-                            <Feather name="user" color={focused ? colors.mainColor : colors.headingColor} size={size} />
-                            <Text style={{ color: focused ? colors.mainColor : colors.headingColor, marginTop: 2 }}>Profile</Text>
-                        </View>
-                    ),
-                }}
-            />
-
-        </Tab.Navigator>
-    );
-};
-
-export default Home;
-
-function Child() {
-    return (
-        <View style={styles.iconSetion}>
-            <Text>Child</Text>
-        </View>
+                })}
+            </View>
+        </View >
     );
 }
 
-
 const styles = StyleSheet.create({
-    tabBarStyle: {
+    container: {
+        flex: 1,
+    },
+    scene: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    tabBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         position: 'absolute',
         bottom: 10,
         left: 20,
         right: 20,
         borderRadius: 15,
-        height: 80
-    },
-    iconSetion: {
-        justifyContent: 'center',
-        alignItems: "center",
+        height: 80,
     },
     shadow: {
         shadowOffset: {
@@ -132,14 +121,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.5,
-        elevation: 5
+        elevation: 5,
     },
-    tabBarBadge: {
-        justifyContent: 'center',
-        lineHeight: 20,
-        alignItems: 'center',
-        width: 20,
-        fontSize: 10,
-        height: 20
-    }
-})
+});
