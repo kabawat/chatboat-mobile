@@ -191,7 +191,7 @@ const chatData = [
     // Add more chat items here
 ];
 
-const CallScreen = (props: any) => {
+const CallScreen = (props) => {
     const { navigation } = props.route
     const isDark = useColorScheme() == 'dark'
     const colors = useThemeColors()
@@ -218,7 +218,7 @@ const CallScreen = (props: any) => {
             <View style={mainStyle.container}>
                 <ScrollView style={styles.chatContainer}>
                     {
-                        chatData?.map((chat: any, key: number) => {
+                        chatData?.map((chat, key) => {
                             return (
                                 <TouchableOpacity key={key}>
                                     <CallListItem {...chat} />

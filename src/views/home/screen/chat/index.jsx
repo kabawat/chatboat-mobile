@@ -192,7 +192,7 @@ const chatData = [
     // Add more chat items here
 ];
 
-const ChatScreen = (props: any) => {
+const ChatScreen = (props) => {
     const { navigation } = props.route
     const isDark = useColorScheme() == 'dark'
     const colors = useThemeColors()
@@ -221,7 +221,7 @@ const ChatScreen = (props: any) => {
                     chatData.length ? <>
                         <ScrollView style={styles.chatContainer}>
                             {
-                                chatData?.map((chat: any, key: number) => {
+                                chatData?.map((chat, key) => {
                                     return (
                                         <TouchableOpacity key={key} onPress={() => navigation.navigate("Chat")}>
                                             <ChatListItem {...chat} />

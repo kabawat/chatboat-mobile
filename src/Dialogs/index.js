@@ -1,6 +1,6 @@
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
-export function dialogBox(message: string, type: string = "DANGER", _callback = () => { }) {
+export function dialogBox(message, type = "DANGER", _callback = () => { }) {
     if (type) {
         let capitalizedText = capitalizeText(type);
         Dialog.show({

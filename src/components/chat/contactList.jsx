@@ -3,7 +3,7 @@ import useThemeColors from '@hooks/useThemeColors';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ContactList = (props: any) => {
+const ContactList = (props) => {
     const { firstName, lastName, picture = "", about, backgroundColor } = props
     const contactName = `${firstName} ${lastName}`
     const colors = useThemeColors()

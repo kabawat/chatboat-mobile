@@ -2,10 +2,10 @@ import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import React from 'react';
 import styles from './style'; // Assuming this imports your stylesheet
 import { useThemeColors } from '@hooks/main';
-const Start = ({ navigation }: any) => {
+const Start = ({ navigation }) => {
   const colors = useThemeColors()
 
-  const handleRedirect = (path: string) => {
+  const handleRedirect = (path) => {
     navigation.replace(path);
   }
 

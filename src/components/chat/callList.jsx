@@ -3,7 +3,7 @@ import useThemeColors from '@hooks/useThemeColors';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const CallListItem = (props: any) => {
+const CallListItem = (props) => {
     const { contactName, avatarUrl, about, backgroundColor, blocked, } = props
     const colors = useThemeColors()
     const statusText = blocked ? (blocked === 'you' ? 'You blocked this contact' : 'You are blocked by this contact') : about;

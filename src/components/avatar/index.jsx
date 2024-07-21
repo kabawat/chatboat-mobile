@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const Avatar = ({ imageUrl, title, size, backgroundColor }: any) => {
+const Avatar = ({ imageUrl, title, size, backgroundColor }) => {
     const initials = title.slice(0, 1);
     const avatarSize = size || 50;
     const containerStyle = {

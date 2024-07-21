@@ -2,7 +2,7 @@ import { Image, StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { windowWidth } from '@utils/comman'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-const Intro = ({ navigation }: any) => {
+const Intro = ({ navigation }) => {
     const getToken = async () => {
         try {
             const token = await AsyncStorage.getItem('_x_a_t');

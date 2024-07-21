@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
-const CheckBoxACheck = (props: any) => {
+const CheckBoxACheck = (props) => {
     const [checked, setChecked] = useState(false);
     const scaleValue = useState(new Animated.Value(0))[0];
 

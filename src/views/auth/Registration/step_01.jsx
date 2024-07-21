@@ -17,12 +17,12 @@ const formInit = {
     firstName: "",
     lastName: ""
 }
-const StepOne = ({ navigation }: any) => {
+const StepOne = ({ navigation }) => {
     const Service = UnAuthService()
     const colors = useThemeColors()
     const [formData, setFormData] = useState(formInit)
     const [loader, setLoader] = useState(false)
-    const handleChange = (value: string, name: string) => {
+    const handleChange = (value, name) => {
         setFormData({
             ...formData,
             [name]: value

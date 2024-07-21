@@ -1,14 +1,15 @@
+
 import AuthService from "@service/auth.service";
 import endpoint from "config/api_endpoint";
 const { createSlice } = require("@reduxjs/toolkit");
 const { createAsyncThunk } = require("@reduxjs/toolkit");
 
-export const get_contact_list = createAsyncThunk('contact_list', async (_: any, { rejectWithValue }: any) => {
+export const get_contact_list = createAsyncThunk('contact_list', async (_, { rejectWithValue }) => {
     const Service = await AuthService()
     try {
         const { data } = await Service.get(endpoint.CHAT)
         return data
-    } catch (error: any) {
+    } catch (error) {
         return rejectWithValue(error.response)
     }
 })
@@ -21,26 +22,26 @@ const chat_contact = createSlice({
         data: [],
         status: false,
     },
-    extraReducers: (building: any) => {
-        building.addCase(get_contact_list.pending, (state: any, action: any) => {
+    extraReducers: (building) => {
+        building.addCase(get_contact_list.pending, (state, action) => {
             state.loading = true;
         })
-        building.addCase(get_contact_list.fulfilled, (state: any, { payload }: any) => {
+        building.addCase(get_contact_list.fulfilled, (state, { payload }) => {
             const { data } = payload
             state.data = data;
             state.status = true
             state.loading = false
         })
-        building.addCase(get_contact_list.rejected, (state: any, action: any) => {
+        building.addCase(get_contact_list.rejected, (state, action) => {
             state.error = action.payload;
             state.loading = false;
             state.data = null;
         })
     },
     reducers: {
-        udpate_contact_list(state: any, { payload }: any) {
-            const updatedData: any[] = []
-            state.data.map((it: any) => {
+        udpate_contact_list(state, { payload }) {
+            const updatedData = []
+            state.data.map((it) => {
                 if (it?.chat_id == payload.chat_id) {
                     updatedData.unshift({ ...it, last_chat: payload })
                 } else {
@@ -51,13 +52,13 @@ const chat_contact = createSlice({
         },
 
         // add new contact 
-        add_new_contact(state: any, { payload }: any) {
+        add_new_contact(state, { payload }) {
             state.data.unshift(payload)
         },
 
         // clear chat 
-        clear_chat_message(state: any, { payload }: any) {
-            state.data = state.data.map((item: any) => {
+        clear_chat_message(state, { payload }) {
+            state.data = state.data.map(item => {
                 if (item?.chat_id == payload.chat_id) {
                     return {
                         ...item,
@@ -69,8 +70,8 @@ const chat_contact = createSlice({
         },
 
         // update last message 
-        update_last_message(state: any, { payload }: any) {
-            state.data = state.data.map((item: any) => {
+        update_last_message(state, { payload }) {
+            state.data = state.data.map(item => {
                 if (item?.chat_id == payload.current_user.chat_id) {
                     return {
                         ...item,
@@ -82,9 +83,9 @@ const chat_contact = createSlice({
         },
 
         // block contact 
-        block_user_contact(state: any, { payload }: any) {
+        block_user_contact(state, { payload }) {
             if (payload.is_block) {
-                state.data = state.data.map((contact: any) => {
+                state.data = state.data.map((contact) => {
                     if (`${contact.chat_id}` == `${payload.chat_id}`) {
                         contact.blocked_by.push(payload.blocked_by)
                         contact.is_block = payload.is_block
@@ -92,9 +93,9 @@ const chat_contact = createSlice({
                     return contact
                 })
             } else {
-                state.data = state.data.map((contact: any) => {
+                state.data = state.data.map((contact) => {
                     if (`${contact.chat_id}` == `${payload.chat_id}`) {
-                        let userList = contact.blocked_by.filter((item: any) => `${item}` != `${payload.blocked_by}`);
+                        let userList = contact.blocked_by.filter(item => `${item}` != `${payload.blocked_by}`);
                         contact.blocked_by = userList
                         contact.is_block = userList?.length ? true : false
                     }

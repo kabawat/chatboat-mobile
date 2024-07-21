@@ -1,6 +1,5 @@
 import useThemeColors from '@hooks/useThemeColors';
 import { windowHeight, windowWidth } from '@utils/comman';
-import { BlurView } from '@react-native-community/blur';
 import React from 'react';
 import {
     ActivityIndicator,
@@ -9,7 +8,7 @@ import {
     View,
 } from 'react-native';
 
-function LoadingAnimation({ message }: any) {
+function LoadingAnimation({ message }) {
     const colors = useThemeColors();
     return (
         <View style={styles.indicatorWrapper}>

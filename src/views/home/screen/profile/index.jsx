@@ -1,34 +1,24 @@
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import useThemeColors from '@hooks/useThemeColors'
 import Octicons from 'react-native-vector-icons/Octicons';
 import mainStyle from '@views/home/style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserList } from '@redux_store/slice/user/userList';
-import ContactList from '@components/chat/contactList';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-const ContactScreen = ({ navigation }: any) => {
-    const dispatch = useDispatch<ThunkDispatch>()
-    const contacts = useSelector((state: any) => state.user_list);
-    // get all contact list 
-    useEffect(() => {
-        if (!contacts?.status && !contacts?.loading) {
-            dispatch(getUserList({ query: "" }));
-        }
-    }, [contacts])
+import Avatar from '@components/avatar';
+const ProfileScreen = (props) => {
     const colors = useThemeColors()
     return (
         <View style={{ flex: 1, backgroundColor: colors.background }}>
             {/* header  */}
             <View style={{ ...mainStyle.header, ...mainStyle.shadow, backgroundColor: colors.dimBackground }}>
-
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Ionicons name="arrow-back" color={colors.headingColor} size={30} />
-                    </TouchableOpacity>
-                    <Text style={{ ...mainStyle.heading, color: colors.dicsColor }}>Contact List</Text>
-                </View>
+                <TouchableOpacity>
+                    <Avatar
+                        imageUrl={""}
+                        title={"Mukesh singh"}
+                        size={40}
+                        backgroundColor={''}
+                    />
+                </TouchableOpacity>
+                <Text style={{ ...mainStyle.heading, color: colors.dicsColor }}>Profile Details</Text>
                 <TouchableOpacity style={mainStyle.rightIcon}>
                     <Octicons name='search' size={24} style={{ color: colors.dicsColor }} />
                 </TouchableOpacity>
@@ -37,24 +27,15 @@ const ContactScreen = ({ navigation }: any) => {
             {/* contact list  */}
             <View style={mainStyle.container}>
                 <ScrollView style={styles.chatContainer}>
-                    {
-                        contacts?.status ? contacts?.data?.map((chat: any, key: number) => {
-                            return (
-                                <TouchableOpacity key={key}>
-                                    <ContactList {...chat} />
-                                </TouchableOpacity>
-                            )
-                        }) : <Text>No Contacts </Text>
-                    }
-                    {/*for create space  */}
-                    <View style={{ height: 70 }}></View>
+
                 </ScrollView>
             </View>
+
         </View>
     )
 }
 
-export default ContactScreen
+export default ProfileScreen
 
 const styles = StyleSheet.create({
     chatContainer: {
@@ -93,4 +74,3 @@ const styles = StyleSheet.create({
         height: 30
     }
 })
-

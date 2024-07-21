@@ -17,12 +17,12 @@ const formInit = {
     password: "",
     confirmPassword: ""
 }
-const StepTwo = ({ navigation }: any) => {
+const StepTwo = ({ navigation }) => {
     const [formData, setFormData] = useState(formInit)
     const [loader, setLoader] = useState(false)
     const colors = useThemeColors()
 
-    const handleChange = (value: string, name: string) => {
+    const handleChange = (value, name) => {
         setFormData({ ...formData, [name]: value })
     }
     const handleSubmit = async () => {

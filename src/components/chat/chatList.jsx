@@ -3,7 +3,7 @@ import useThemeColors from '@hooks/useThemeColors';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ChatListItem = (props: any) => {
+const ChatListItem = (props) => {
     const { contactName, avatarUrl, lastMessage, about, lastSeen, typing, unreadMessages, backgroundColor, blocked, } = props
     const colors = useThemeColors()
     const statusText = blocked ? (blocked === 'you' ? 'You blocked this contact' : 'You are blocked by this contact') : lastMessage || about;

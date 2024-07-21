@@ -22,7 +22,7 @@ const renderScene = SceneMap({
 
 });
 
-const getButtonStyle = (key: any, colors: any) => {
+const getButtonStyle = (key, colors) => {
     if (key == "newchat") {
         return {
             justifyContent: 'center',
@@ -52,7 +52,7 @@ const getButtonStyle = (key: any, colors: any) => {
     }
 }
 
-export default function Home({ navigation }: any) {
+export default function Home({ navigation }) {
     const colors = useThemeColors();
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);

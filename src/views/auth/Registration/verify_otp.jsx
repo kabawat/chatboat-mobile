@@ -8,7 +8,7 @@ import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, useColorScheme } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const VerifyOTP = ({ navigation, route }: any) => {
+const VerifyOTP = ({ navigation, route }) => {
     const { payload } = route.params;
     const isDark = useColorScheme() == 'dark'
     const colors = useThemeColors()
@@ -17,7 +17,7 @@ const VerifyOTP = ({ navigation, route }: any) => {
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
     let keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace']
 
-    const handleKeyPress = (e: any, index: number) => {
+    const handleKeyPress = (e, index) => {
         const { key } = e.nativeEvent
         if (keys.includes(key)) {
             let value = otp.split("")
@@ -113,7 +113,7 @@ const VerifyOTP = ({ navigation, route }: any) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
+
     },
     BgImg: {
         width: windowWidth,

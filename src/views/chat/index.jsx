@@ -3,7 +3,7 @@ import useThemeColors from '@hooks/useThemeColors';
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const ChatHome = ({ navigation }: any) => {
+const ChatHome = ({ navigation }) => {
     const onMenuPress = () => {
     }
     const colors = useThemeColors()

@@ -3,8 +3,8 @@ import { windowHeight } from '@utils/comman';
 import React from 'react';
 import { View } from 'react-native';
 
-const MainContainer = (WrappedComponent: any) => {
-    return (props: any) => {
+const MainContainer = (WrappedComponent) => {
+    return (props) => {
         const colors = useThemeColors();
         return (
             <View style={{ backgroundColor: colors.mainLight, height: windowHeight }}>

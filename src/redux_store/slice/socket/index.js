@@ -10,6 +10,8 @@ const fetchBaseURL = () => {
     }
 }
 const baseURL = fetchBaseURL()
+// const socketIO = io('https://chatboat-socket.vercel.app')
+// const socketIO = io('https://chatboat-socket.onrender.com')
 const socketIO = io(baseURL)
 const socket_connection = createSlice({
     name: "Socket",

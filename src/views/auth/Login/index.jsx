@@ -17,11 +17,11 @@ const initform = {
     email: "",
     password: ""
 }
-const Login = ({ navigation }: any) => {
+const Login = ({ navigation }) => {
     const [loader, setLoader] = useState(false)
     const colors = useThemeColors()
     const [formData, setFormData] = useState(initform)
-    const handleChanage = (value: string, name: string) => {
+    const handleChanage = (value, name) => {
         setFormData({
             ...formData,
             [name]: value
@@ -43,7 +43,7 @@ const Login = ({ navigation }: any) => {
             dialogBox("login Success", "SUCCESS", () => {
                 navigation.replace('Home')
             })
-        } catch (error: any) {
+        } catch (error) {
             if (error?.response?.data?.error) {
                 dialogBox(error?.response?.data?.error)
             } else {
