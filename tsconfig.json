@@ -9,6 +9,9 @@
       "@assets": [
         "assets/*"
       ],
+      "@redux_store/*": [
+        "redux_store/*"
+      ],
       "@hooks/*": [
         "hooks/*"
       ],

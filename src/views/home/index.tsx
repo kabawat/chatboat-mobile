@@ -9,6 +9,7 @@ import CallScreen from './screen/call';
 import ChatScreen from './screen/chat';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { useSelector } from 'react-redux';
 // import ContactScreen from '@views/contact';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 

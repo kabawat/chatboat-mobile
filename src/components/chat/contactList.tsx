@@ -4,12 +4,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const ContactList = (props: any) => {
-    const { contactName, avatarUrl, about, backgroundColor } = props
+    const { firstName, lastName, picture = "", about, backgroundColor } = props
+    const contactName = `${firstName} ${lastName}`
     const colors = useThemeColors()
     return (
         <View style={styles.container}>
             <Avatar
-                imageUrl={avatarUrl}
+                imageUrl={picture}
                 title={contactName}
                 size={45}
                 backgroundColor={backgroundColor}
