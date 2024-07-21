@@ -8,12 +8,10 @@ import Registration from '@views/auth/Registration'
 import Login from '@views/auth/Login'
 import Home from '@views/home'
 import ChatHome from '@views/chat'
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ContactScreen from '@views/contact'
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
-    // <GestureHandlerRootView>
     <AlertNotificationRoot>
       <NavigationContainer>
         <Stack.Navigator>
@@ -28,7 +26,6 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </AlertNotificationRoot>
-    // </GestureHandlerRootView>
   )
 }
 

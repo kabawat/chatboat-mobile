@@ -5,6 +5,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import mainStyle from '@views/home/style';
 import Avatar from '@components/avatar';
 import ChatListItem from '@components/chat/chatList';
+import NoChatYet from '@components/contact/no_contact';
 const chatData = [
     {
         id: '1',
@@ -216,23 +217,25 @@ const ChatScreen = (props: any) => {
 
             {/* contact list  */}
             <View style={mainStyle.container}>
-                <ScrollView style={styles.chatContainer}>
-                    {
-                        chatData?.map((chat: any, key: number) => {
-                            return (
-                                <TouchableOpacity key={key} onPress={() => navigation.navigate("Chat")}>
-                                    <ChatListItem {...chat} />
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
-                    {/*for create space  */}
-                    <View style={{ height: 70 }}></View>
-                </ScrollView>
-
-                <TouchableOpacity style={newChatBtn} onPress={() => { navigation.navigate("Contact") }}>
-                    <Image source={isDark ? require('@assets/icons/chat-light.png') : require('@assets/icons/chat-dark.png')} style={{ ...styles.chatIcon }} />
-                </TouchableOpacity>
+                {
+                    chatData.length ? <>
+                        <ScrollView style={styles.chatContainer}>
+                            {
+                                chatData?.map((chat: any, key: number) => {
+                                    return (
+                                        <TouchableOpacity key={key} onPress={() => navigation.navigate("Chat")}>
+                                            <ChatListItem {...chat} />
+                                        </TouchableOpacity>
+                                    )
+                                })
+                            }
+                            <View style={{ height: 70 }}></View>
+                        </ScrollView>
+                        <TouchableOpacity style={newChatBtn} onPress={() => { navigation.navigate("Contact") }}>
+                            <Image source={isDark ? require('@assets/icons/chat-light.png') : require('@assets/icons/chat-dark.png')} style={{ ...styles.chatIcon }} />
+                        </TouchableOpacity>
+                    </> : <NoChatYet />
+                }
             </View>
 
         </View>
