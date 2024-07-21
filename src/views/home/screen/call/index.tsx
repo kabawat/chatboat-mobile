@@ -4,8 +4,7 @@ import useThemeColors from '@hooks/useThemeColors'
 import Octicons from 'react-native-vector-icons/Octicons';
 import mainStyle from '@views/home/style';
 import Avatar from '@components/avatar';
-import ChatListItem from '@components/chat/chatList';
-import NoChatYet from '@components/contact/no_contact';
+import CallListItem from '@components/chat/callList';
 const chatData = [
     {
         id: '1',
@@ -192,7 +191,7 @@ const chatData = [
     // Add more chat items here
 ];
 
-const ChatScreen = (props: any) => {
+const CallScreen = (props: any) => {
     const { navigation } = props.route
     const isDark = useColorScheme() == 'dark'
     const colors = useThemeColors()
@@ -209,7 +208,7 @@ const ChatScreen = (props: any) => {
                         backgroundColor={''}
                     />
                 </TouchableOpacity>
-                <Text style={{ ...mainStyle.heading, color: colors.dicsColor }}>Chat</Text>
+                <Text style={{ ...mainStyle.heading, color: colors.dicsColor }}>Call</Text>
                 <TouchableOpacity style={mainStyle.rightIcon}>
                     <Octicons name='search' size={24} style={{ color: colors.dicsColor }} />
                 </TouchableOpacity>
@@ -217,32 +216,30 @@ const ChatScreen = (props: any) => {
 
             {/* contact list  */}
             <View style={mainStyle.container}>
-                {
-                    chatData.length ? <>
-                        <ScrollView style={styles.chatContainer}>
-                            {
-                                chatData?.map((chat: any, key: number) => {
-                                    return (
-                                        <TouchableOpacity key={key} onPress={() => navigation.navigate("Chat")}>
-                                            <ChatListItem {...chat} />
-                                        </TouchableOpacity>
-                                    )
-                                })
-                            }
-                            <View style={{ height: 70 }}></View>
-                        </ScrollView>
-                        <TouchableOpacity style={newChatBtn} onPress={() => { navigation.navigate("Contact") }}>
-                            <Image source={isDark ? require('@assets/icons/chat-light.png') : require('@assets/icons/chat-dark.png')} style={{ ...styles.chatIcon }} />
-                        </TouchableOpacity>
-                    </> : <NoChatYet />
-                }
+                <ScrollView style={styles.chatContainer}>
+                    {
+                        chatData?.map((chat: any, key: number) => {
+                            return (
+                                <TouchableOpacity key={key}>
+                                    <CallListItem {...chat} />
+                                </TouchableOpacity>
+                            )
+                        })
+                    }
+                    {/*for create space  */}
+                    <View style={{ height: 70 }}></View>
+                </ScrollView>
+
+                <TouchableOpacity style={newChatBtn} onPress={() => { navigation.navigate("Contact") }}>
+                    <Image source={isDark ? require('@assets/icons/chat-light.png') : require('@assets/icons/chat-dark.png')} style={{ ...styles.chatIcon }} />
+                </TouchableOpacity>
             </View>
 
         </View>
     )
 }
 
-export default ChatScreen
+export default CallScreen
 
 const styles = StyleSheet.create({
     chatContainer: {

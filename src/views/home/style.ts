@@ -19,7 +19,8 @@ const mainStyle = StyleSheet.create({
     },
     heading: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        paddingLeft: 10
     },
     container: {
         height: windowHeight - 80,
