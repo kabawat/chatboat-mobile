@@ -3,7 +3,7 @@ import axios from "axios";
 import endpoint from "config/api_endpoint";
 
 async function AuthService() {
-    const token = await AsyncStorage.getItem('x_a_t');
+    const token = await AsyncStorage.getItem('_x_a_t');
     let headers = {
         'x-auth-tokens': token
     }

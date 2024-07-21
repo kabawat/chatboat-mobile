@@ -1,41 +1,22 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, useColorScheme } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
 import useThemeColors from '@hooks/useThemeColors'
 import Octicons from 'react-native-vector-icons/Octicons';
 import mainStyle from '@views/home/style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserList } from '@redux_store/slice/user/userList';
 import ContactList from '@components/chat/contactList';
-const chatData = [
-    {
-        id: '1',
-        contactName: 'John Doe',
-        avatarUrl: '',
-        lastMessage: 'Hey there!',
-        status: 'Online',
-        lastSeen: '',
-        typing: false,
-        unreadMessages: 2,
-        backgroundColor: '#ff6347',
-        about: "❤️💕😊👌",
-        blocked: false,
-    },
-    {
-        id: '2',
-        contactName: 'Jane Smith',
-        avatarUrl: '',
-        lastMessage: '',
-        status: '',
-        lastSeen: '',
-        typing: false,
-        unreadMessages: 0,
-        backgroundColor: '#1e90ff',
-        about: "Full Stack Developer",
-        blocked: 'you',
-    },
-];
-
+import { ThunkDispatch } from '@reduxjs/toolkit';
 const ContactScreen = ({ navigation }: any) => {
-    const isDark = useColorScheme() == 'dark'
+    const dispatch = useDispatch<ThunkDispatch>()
+    const contacts = useSelector((state: any) => state.user_list);
+    // get all contact list 
+    useEffect(() => {
+        if (!contacts?.status && !contacts?.loading) {
+            dispatch(getUserList({ query: "" }));
+        }
+    }, [contacts])
     const colors = useThemeColors()
     return (
         <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -57,13 +38,13 @@ const ContactScreen = ({ navigation }: any) => {
             <View style={mainStyle.container}>
                 <ScrollView style={styles.chatContainer}>
                     {
-                        chatData?.map((chat: any, key: number) => {
+                        contacts?.status ? contacts?.data?.map((chat: any, key: number) => {
                             return (
                                 <TouchableOpacity key={key}>
                                     <ContactList {...chat} />
                                 </TouchableOpacity>
                             )
-                        })
+                        }) : <Text>No Contacts </Text>
                     }
                     {/*for create space  */}
                     <View style={{ height: 70 }}></View>
@@ -112,3 +93,4 @@ const styles = StyleSheet.create({
         height: 30
     }
 })
+
