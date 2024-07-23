@@ -5,7 +5,6 @@ import chatContactSlice from './slice/chat'
 import userListSlice from './slice/user/userList'
 import profileSlice from './slice/profile'
 import current_user from './slice/user'
-import socketSlice from './slice/socket'
 import chatSlice from './slice/message'
 const rootReducer = combineReducers({
     online_users: onlineUsersSlice,
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
     startMsg: startMessageSclice,
     contact: chatContactSlice,
     profile: profileSlice,
-    // socket: socketSlice,
     chat: chatSlice,
 });
 

@@ -12,7 +12,6 @@ const ContactScreen = ({ navigation }) => {
     const contacts = useSelector((state) => state.user_list);
     // get all contact list 
     useEffect(() => {
-        console.log("contacts : ", contacts)
         if (!contacts?.status && !contacts?.loading) {
             dispatch(get_userList({}));
         }

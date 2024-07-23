@@ -5,6 +5,7 @@ export const get_userList = createAsyncThunk("get_userList", async ({ query }, {
     const Service = await AuthService()
     try {
         const { data } = await Service.get(`${endpoint.USER_LIST}?search=${query ? query : ""}`);
+        console.log("data : ", data)
         return data
     } catch (error) {
         return rejectWithValue(error.response)
