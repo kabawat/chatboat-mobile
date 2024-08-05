@@ -8,7 +8,11 @@ export const get_userList = createAsyncThunk("get_userList", async ({ query }, {
         console.log("data : ", data)
         return data
     } catch (error) {
-        return rejectWithValue(error.response)
+        if (error?.response?.data?.error) {
+            return rejectWithValue(error?.response?.data?.error)
+        } else {
+            return rejectWithValue('something went wrong')
+        }
     }
 })
 

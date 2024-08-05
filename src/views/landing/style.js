@@ -1,11 +1,11 @@
+import { windowHeight, windowWidth } from "@utils/comman";
+import { StyleSheet } from "react-native";
 import GlobalColor from "@style/colors";
-import { windowWidth } from "@utils/comman";
-import { StyleSheet, useColorScheme } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 const styles = StyleSheet.create({
     img: {
-        width: windowWidth,
-        height: windowWidth
+        width: windowWidth < 400 ? windowWidth : windowHeight / 2,
+        height: windowWidth < 400 ? windowWidth : windowHeight / 2
     },
     heading: {
         textAlign: 'center',

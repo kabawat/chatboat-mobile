@@ -7,7 +7,11 @@ export const get_profile = createAsyncThunk("get_profile", async (_, { rejectWit
         const { data } = await Service.get(endpoint.PROFILE)
         return data
     } catch (error) {
-        return rejectWithValue(error.response)
+        if (error?.response?.data?.error) {
+            return rejectWithValue(error?.response?.data?.error)
+        } else {
+            return rejectWithValue("something went wrong")
+        }
     }
 })
 
@@ -30,7 +34,8 @@ const profile = createSlice({
             state.loading = false
         });
         builder.addCase(get_profile.rejected, (state, action) => {
-            state.error = action.payload;
+            state.error = action?.payload;
+            state.unAuth = true
             state.loading = false;
             state.data = null;
         });

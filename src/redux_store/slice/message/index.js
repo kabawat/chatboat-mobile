@@ -8,7 +8,11 @@ export const get_chat_message = createAsyncThunk("get_chat_message", async ({ ch
         const mapping = { data, clean }
         return mapping
     } catch (error) {
-        return rejectWithValue(error.response)
+        if (error?.response?.data?.error) {
+            return rejectWithValue(error?.response?.data?.error)
+        } else {
+            return rejectWithValue('something went wrong')
+        }
     }
 })
 

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
     introBgImg: {
         position: 'absolute',
-        width: windowWidth,
+        width: windowWidth < 400 ? windowWidth : windowWidth,
         height: 'auto',
         bottom: 0,
         top: 0,

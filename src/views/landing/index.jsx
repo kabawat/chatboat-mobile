@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import React from 'react';
 import styles from './style'; // Assuming this imports your stylesheet
 import { useThemeColors } from '@hooks/main';
+import { windowWidth } from '@utils/comman';
 const Start = ({ navigation }) => {
   const colors = useThemeColors()
 
@@ -14,7 +15,7 @@ const Start = ({ navigation }) => {
   };
   return (
     <View style={{ backgroundColor: colors.mainLight, flex: 1 }}>
-      <View style={{ alignItems: 'center', flex: 5, marginTop: 40 }}>
+      <View style={{ alignItems: 'center', flex: windowWidth < 400 ? 5 : 6, marginTop: 40 }}>
         <Image source={require('@assets/lending.png')} style={styles.img} />
       </View>
       <View style={{ flex: 5 }}>

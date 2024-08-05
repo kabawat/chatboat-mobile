@@ -12,6 +12,7 @@ import Intro from '@views/intro'
 import Home from '@views/home'
 import { get_profile } from '@redux_store/slice/profile'
 import { useSocket } from './App'
+import { windowHeight, windowWidth } from '@utils/comman'
 const QuryBoat = () => {
   const socket = useSocket()
   const dispatch = useDispatch()
@@ -19,7 +20,9 @@ const QuryBoat = () => {
   const profile = useSelector(state => state.profile)
   useEffect(() => {
     if (!profile?.status && !profile.loading) {
-      dispatch(get_profile())
+      if (!profile.unAuth) {
+        dispatch(get_profile())
+      }
     }
     if (profile.status && !profile.loading && socket) {
       socket.emit('login', {
@@ -27,6 +30,7 @@ const QuryBoat = () => {
         _id: profile?.data?._id
       })
     }
+    console.log(windowHeight, windowWidth)
   }, [profile])
   return (
     <AlertNotificationRoot>

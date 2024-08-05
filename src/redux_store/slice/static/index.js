@@ -7,7 +7,11 @@ export const getStartMessage = createAsyncThunk("getStartMessage", async (_, { r
         const { data } = await Service.get(endpoint.STATIC)
         return data
     } catch (error) {
-        return rejectWithValue(error.response)
+        if (error?.response?.data?.error) {
+            return rejectWithValue(error?.response?.data?.error)
+        } else {
+            return rejectWithValue('something went wrong')
+        }
     }
 })
 
