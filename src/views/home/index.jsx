@@ -9,7 +9,9 @@ import CallScreen from './screen/call';
 import ChatScreen from './screen/chat';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSocket } from '../../../App';
+import { get_profile } from '@redux_store/slice/profile';
 // import ContactScreen from '@views/contact';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -53,9 +55,14 @@ const getButtonStyle = (key, colors) => {
 }
 
 export default function Home({ navigation }) {
+    const profile = useSelector(state => state.profile)
+    const [index, setIndex] = React.useState(0);
+
+    const dispatch = useDispatch()
+    const { socket } = useSocket()
     const colors = useThemeColors();
     const layout = useWindowDimensions();
-    const [index, setIndex] = React.useState(0);
+
     const [routes] = React.useState([
         { navigation: navigation, key: 'chat', title: 'Chat', icon: 'chatbubbles-outline', IconComponent: Ionicons },
         { navigation: navigation, key: 'call', title: 'Call', icon: 'call-outline', IconComponent: Ionicons },
@@ -63,6 +70,17 @@ export default function Home({ navigation }) {
         { navigation: navigation, key: 'status', title: 'Status', icon: 'camera-outline', IconComponent: Ionicons },
         { navigation: navigation, key: 'profile', title: 'Profile', icon: 'user', IconComponent: Feather },
     ]);
+    React.useEffect(() => {
+        if (!profile?.status && !profile.loading && !profile?.error) {
+            dispatch(get_profile())
+        }
+        if (profile.status && !profile.loading && socket) {
+            socket.emit('login', {
+                username: profile?.data?.username,
+                _id: profile?.data?._id
+            })
+        }
+    }, [profile, socket])
 
     return (
         <View style={styles.container}>

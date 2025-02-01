@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import endpoint from "config/api_endpoint";
 import AuthService from "@service/auth.service";
+import endpoint from "config/api_endpoint";
 export const getStartMessage = createAsyncThunk("getStartMessage", async (_, { rejectWithValue }) => {
     const Service = await AuthService()
     try {

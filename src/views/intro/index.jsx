@@ -2,7 +2,9 @@ import { Image, StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { windowWidth } from '@utils/comman'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useSocket } from '../../../App'
 const Intro = ({ navigation }) => {
+    const { setupSocket, socket } = useSocket()
     const getToken = async () => {
         try {
             const token = await AsyncStorage.getItem('_x_a_t');
@@ -15,6 +17,9 @@ const Intro = ({ navigation }) => {
         } catch (error) { }
     }
     useEffect(() => {
+        if (!socket) {
+            setupSocket()
+        }
         setTimeout(() => {
             getToken()
         }, 2000)

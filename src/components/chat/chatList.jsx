@@ -1,33 +1,40 @@
 import Avatar from '@components/avatar';
 import useThemeColors from '@hooks/useThemeColors';
+import { formatTimeDifference } from 'helper/timeCal';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ChatListItem = (props) => {
-    const { contactName, avatarUrl, lastMessage, about, lastSeen, typing, unreadMessages, backgroundColor, blocked, } = props
-    const colors = useThemeColors()
-    const statusText = blocked ? (blocked === 'you' ? 'You blocked this contact' : 'You are blocked by this contact') : lastMessage || about;
+const ChatListItem = (currentChat) => {
+    let lastSeen = currentChat?.isOnline // lastSeen : true | fasle | typing... (default)
+    if (lastSeen === true) {
+        lastSeen = "Online"
+    }
+    if (lastSeen === false) {
+        lastSeen = formatTimeDifference(new Date(currentChat?.lastSeen))
+    }
 
+    const colors = useThemeColors()
+    const statusText = currentChat?.is_block ? (currentChat?.is_block === 'you' ? 'You blocked this contact' : 'You are blocked by this contact') : currentChat?.last_chat?.text || currentChat?.about;
     return (
         <View style={styles.container}>
             <Avatar
-                imageUrl={avatarUrl}
-                title={contactName}
+                imageUrl={currentChat?.picture || ""}
+                title={currentChat?.firstName}
                 size={45}
-                backgroundColor={backgroundColor}
+                backgroundColor={'red'}
             />
             <View style={styles.middleContainer}>
-                <Text style={{ ...styles.contactName, color: colors.headingColor }}>{contactName}</Text>
-                <Text style={{ ...styles.statusText, color: colors.dicsDim }}>
+                <Text style={{ ...styles.contactName, color: colors.headingColor }}>{currentChat?.firstName} {currentChat?.lastName}</Text>
+                <Text style={{ ...styles.statusText, color: colors.dicsDim }} numberOfLines={1} ellipsizeMode="tail">
                     {statusText}
                 </Text>
             </View>
             <View style={styles.rightContainer}>
                 <Text style={{ ...styles.status, color: colors.mainColor }}>
-                    {typing ? 'Typing...' : (blocked ? '' : (lastSeen ? lastSeen : 'Online'))}
+                    {lastSeen}
                 </Text>
-                <View style={{ ...styles.unreadContainer, backgroundColor: unreadMessages ? '#f44336' : 'transparent' }}>
-                    <Text style={{ ...styles.unreadText, color: unreadMessages ? '#fff' : 'transparent' }}>{unreadMessages}</Text>
+                <View style={{ ...styles.unreadContainer, backgroundColor: currentChat?.totalUnRead ? '#f44336' : 'transparent' }}>
+                    <Text style={{ ...styles.unreadText, color: currentChat?.totalUnRead ? '#fff' : 'transparent' }}>{currentChat?.totalUnRead}</Text>
                 </View>
             </View>
         </View>

@@ -4,8 +4,8 @@ import AuthService from "@service/auth.service";
 export const get_userList = createAsyncThunk("get_userList", async ({ query }, { rejectWithValue }) => {
     const Service = await AuthService()
     try {
-        const { data } = await Service.get(`${endpoint.USER_LIST}?search=${query ? query : ""}`);
-        console.log("data : ", data)
+        const { data } = await Service.get(`${endpoint.USER_LIST}?search=${query ? query : ''}`);
+
         return data
     } catch (error) {
         if (error?.response?.data?.error) {

@@ -3,6 +3,7 @@ import QuryBoat from './queryboat'
 import { Provider } from 'react-redux'
 import store from 'redux_store/index'
 import io from 'socket.io-client'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const environment = process.env.ENVIRONMENT
 const fetchBaseURL = () => {
   if (environment == "development") {
@@ -16,28 +17,42 @@ const SocketContext = createContext(null)
 const App = () => {
 
   const [socketIO, setSocketIO] = useState(null)
-  useEffect(() => {
-    const baseURL = fetchBaseURL()
-    const socket = io(baseURL)
-    setSocketIO(socket)
-    function onConnect() {
-      console.log('connected')
+  const setupSocket = async () => {
+    try {
+      const baseURL = fetchBaseURL();
+      const token = await AsyncStorage.getItem('_x_s_t');
+      const query = `token=${token}`;
+      const socket = io(baseURL, { query });
+      setSocketIO(socket);
+
+      socket.on('connect_error', (err) => {
+        console.log('Connection log:', err);
+      });
+
+      socket.on('connect_failed', (err) => {
+        console.log('Connection Failed:', err);
+      });
+
+      socket.on('connect', () => {
+        console.log('connected');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('disconnected', socket.id);
+      });
+
+      // Cleanup on component unmount
+      return () => {
+        socket.off('connect');
+        socket.off('disconnect');
+        socket.close(); // Close socket connection
+      };
+    } catch (error) {
+      console.error('Error setting up socket:', error);
     }
-
-    function onDisconnect() {
-      console.log(socket.id)
-    }
-
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-
-    return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-    };
-  }, [])
+  };
   return (
-    <SocketContext.Provider value={socketIO}>
+    <SocketContext.Provider value={{ socket: socketIO, setupSocket }}>
       <Provider store={store}>
         <QuryBoat />
       </Provider>

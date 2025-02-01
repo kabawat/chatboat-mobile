@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import endpoint from "config/api_endpoint";
 import AuthService from "@service/auth.service";
+import endpoint from "config/api_endpoint";
 export const get_profile = createAsyncThunk("get_profile", async (_, { rejectWithValue }) => {
     const Service = await AuthService()
     try {
@@ -10,7 +10,7 @@ export const get_profile = createAsyncThunk("get_profile", async (_, { rejectWit
         if (error?.response?.data?.error) {
             return rejectWithValue(error?.response?.data?.error)
         } else {
-            return rejectWithValue("something went wrong")
+            return rejectWithValue('something went wrong')
         }
     }
 })
@@ -34,8 +34,7 @@ const profile = createSlice({
             state.loading = false
         });
         builder.addCase(get_profile.rejected, (state, action) => {
-            state.error = action?.payload;
-            state.unAuth = true
+            state.error = action.payload;
             state.loading = false;
             state.data = null;
         });

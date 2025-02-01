@@ -13,12 +13,14 @@ import { UnAuthService } from '@service/verify.service'
 import endpoint from 'config/api_endpoint'
 import LoadingAnimation from '@components/loader/CubeAnimation'
 import dialogBox from 'Dialogs'
+import { useSocket } from '../../../../App'
 const initform = {
     email: "",
     password: ""
 }
 const Login = ({ navigation }) => {
     const [loader, setLoader] = useState(false)
+    const { setupSocket } = useSocket()
     const colors = useThemeColors()
     const [formData, setFormData] = useState(initform)
     const handleChanage = (value, name) => {
@@ -28,8 +30,6 @@ const Login = ({ navigation }) => {
         })
     }
 
-
-
     const handleSubmit = async () => {
         try {
             if (!formData.email || !formData.password) {
@@ -38,10 +38,12 @@ const Login = ({ navigation }) => {
             }
             setLoader(true)
             const res = await UnAuthService().post(endpoint.LOGIN, formData)
-            const { _id, authToken } = res.data
+            const { authToken, socket_token } = res.data
             await AsyncStorage.setItem('_x_a_t', authToken)
+            await AsyncStorage.setItem('_x_s_t', socket_token)
+            setupSocket()
             dialogBox("login Success", "SUCCESS", () => {
-                navigation.replace('Home')
+                navigation.replace('Loading')
             })
         } catch (error) {
             if (error?.response?.data?.error) {

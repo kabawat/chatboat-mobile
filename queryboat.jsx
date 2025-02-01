@@ -10,28 +10,10 @@ import Landing from '@views/landing'
 import Login from '@views/auth/Login'
 import Intro from '@views/intro'
 import Home from '@views/home'
-import { get_profile } from '@redux_store/slice/profile'
-import { useSocket } from './App'
 import { windowHeight, windowWidth } from '@utils/comman'
 const QuryBoat = () => {
-  const socket = useSocket()
-  const dispatch = useDispatch()
   const Stack = createNativeStackNavigator();
-  const profile = useSelector(state => state.profile)
-  useEffect(() => {
-    if (!profile?.status && !profile.loading) {
-      if (!profile.unAuth) {
-        dispatch(get_profile())
-      }
-    }
-    if (profile.status && !profile.loading && socket) {
-      socket.emit('login', {
-        username: profile?.data?.username,
-        _id: profile?.data?._id
-      })
-    }
-    console.log(windowHeight, windowWidth)
-  }, [profile])
+  console.log(windowHeight, windowWidth)
   return (
     <AlertNotificationRoot>
       <NavigationContainer>

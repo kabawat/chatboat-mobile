@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import startMessageSclice from './slice/static'
 import onlineUsersSlice from './slice/online-user'
 import chatContactSlice from './slice/chat'
@@ -18,6 +18,12 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredPaths: ['chat.data', 'payload'], // Specify the path to ignore
+            ignoredActions: ['chat_contact/update_contact_lastchat', 'chat/add_new_message', 'chat_contact/udpate_contact_lastchat', 'chat/add_new_message', 'chat_contact/udpate_contact_lastchat'], // Ignore specific actions
+        },
+    })
 });
-export default store
 
+export default store
